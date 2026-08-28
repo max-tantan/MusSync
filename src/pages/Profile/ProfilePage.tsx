@@ -22,6 +22,7 @@ import GenreBarChart from '../../components/profile/GenreBarChart'
 import RatingDistribution from '../../components/profile/RatingDistribution'
 import TimelineChart from '../../components/profile/TimelineChart'
 import MilestonesList from '../../components/profile/MilestonesList'
+import ArtistFavoritesList from '../../components/profile/ArtistFavoritesList'
 import './ProfilePage.css'
 
 export default function ProfilePage() {
@@ -73,6 +74,11 @@ export default function ProfilePage() {
         ) : (
           <p className="hint-p">Belum ada data penyanyi.</p>
         )}
+      </section>
+
+      <section className="container section">
+        <h2 className="profile__heading">Artis favoritku</h2>
+        <ArtistFavoritesList />
       </section>
 
       <section className="container section">

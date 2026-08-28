@@ -1,39 +1,139 @@
-.artist__meta {
+.artist-hero {
+  position: relative;
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+  background-color: var(--surface-2);
+  background-size: cover;
+  background-position: center 30%;
+  overflow: hidden;
+}
+
+.artist-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--bg) 72%, transparent) 45%,
+    color-mix(in srgb, var(--bg) 35%, transparent) 100%
+  );
+}
+
+.artist-hero__inner {
+  position: relative;
+  z-index: 1;
+  padding-block: 32px 28px;
+  width: 100%;
+}
+
+.artist-hero__eyebrow {
+  margin: 0 0 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.artist-hero__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.artist-hero__title {
+  font-size: clamp(34px, 6vw, 56px);
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.artist-hero__meta {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  margin-top: 16px;
+  margin-top: 14px;
   font-family: var(--mono);
   font-size: 14px;
 
   em {
     font-style: normal;
     font-size: 12px;
-    color: var(--faint);
+    color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
+}
 
-  .artist__link {
-    color: var(--muted);
+.artist-hero__link {
+  color: var(--muted);
 
-    &:hover {
-      color: var(--neon);
-    }
+  &:hover {
+    color: var(--neon);
   }
 }
 
+.artist-body {
+  padding-block: 40px 24px;
+}
+
+.artist__layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .artist__layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.artist__photo {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line-strong);
+  aspect-ratio: 1;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.artist__aside {
+  min-width: 0;
+}
+
 .artist__bio {
-  margin: 16px 0 0;
+  margin: 0;
   max-width: 640px;
   font-size: 14.5px;
   line-height: 1.7;
   color: var(--muted);
 }
 
+.artist__genre-title {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 20px 0 10px;
+}
+
 .artist__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 18px;
+}
+
+.artist__empty {
+  color: var(--muted);
+  font-size: 14.5px;
+  margin: 0;
 }

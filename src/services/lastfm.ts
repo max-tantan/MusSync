@@ -21,11 +21,17 @@ interface ImageEntry {
 
 const IMAGE_PRIORITY = ['mega', 'extralarge', 'large', 'medium', 'small']
 
+const PLACEHOLDER_HASH = '2a96cbd8b46e442fc41c2b86b821562f'
+
+function isPlaceholder(url: string): boolean {
+  return url.includes(PLACEHOLDER_HASH) || url.includes('/i/u/34s/')
+}
+
 function pickImage(images: ImageEntry[] | undefined): string | null {
   if (!images) return null
   for (const size of IMAGE_PRIORITY) {
     const img = images.find((i) => i.size === size && i['#text'])
-    if (img) return img['#text']
+    if (img && !isPlaceholder(img['#text'])) return img['#text']
   }
   return null
 }

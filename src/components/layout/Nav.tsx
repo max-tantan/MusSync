@@ -4,6 +4,24 @@ import { randomAlbum } from '../../services/lastfm'
 import { useTheme } from '../../hooks/useTheme'
 import './Nav.css'
 
+const BARS = [0.5, 1, 0.7, 0.9]
+
+function Eq({ active }: { active: boolean }) {
+  return (
+    <span
+      className={`nav__eq${active ? ' is-on' : ''}`}
+      aria-hidden="true"
+    >
+      {BARS.map((h, i) => (
+        <i
+          key={i}
+          style={{ '--h': `${Math.round(h * 100)}%` } as React.CSSProperties}
+        />
+      ))}
+    </span>
+  )
+}
+
 function Mark() {
   return (
     <span className="nav__mark" aria-hidden="true">
@@ -20,7 +38,6 @@ const links = [
   { to: '/genre', label: 'Genre', end: false },
   { to: '/library', label: 'Pustaka', end: false },
   { to: '/profile', label: 'Profil', end: false },
-  { to: '/tentang', label: 'Tentang', end: false },
 ]
 
 export default function Nav() {
@@ -47,7 +64,9 @@ export default function Nav() {
           <span>
             Mus<span className="nav__accent">Sync</span>
           </span>
+          <span className="nav__branddata">/ papan skor</span>
         </Link>
+
         <div className="nav__right">
           <nav className="nav__links" aria-label="Navigasi utama">
             {links.map((l) => (
@@ -59,10 +78,16 @@ export default function Nav() {
                   `nav__link${isActive ? ' is-active' : ''}`
                 }
               >
-                {l.label}
+                {({ isActive }) => (
+                  <>
+                    <span className="nav__label">{l.label}</span>
+                    <Eq active={isActive} />
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
+
           <div className="nav__tools">
             <button
               type="button"
@@ -71,15 +96,15 @@ export default function Nav() {
               disabled={busy}
               title="Lompat ke album acak"
             >
-              {busy ? '…' : 'Acak'}
+              {busy ? '…' : 'acak'}
             </button>
             <button
               type="button"
-              className="nav__tool"
+              className="nav__tool nav__tool--theme"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               title="Ganti tema"
             >
-              {theme === 'dark' ? 'Terang' : 'Gelap'}
+              {theme === 'dark' ? 'terang' : 'gelap'}
             </button>
           </div>
         </div>
