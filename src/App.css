@@ -1,0 +1,46 @@
+.app-main {
+  min-height: 70vh;
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 26px;
+  flex-wrap: wrap;
+}
+
+.footer__brand {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0;
+
+  span {
+    color: var(--neon);
+  }
+}
+
+.footer__note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  order: 3;
+  width: 100%;
+  flex-basis: 100%;
+}
+
+.footer__home {
+  font-size: 14px;
+  color: var(--muted);
+
+  &:hover {
+    color: var(--neon);
+  }
+}

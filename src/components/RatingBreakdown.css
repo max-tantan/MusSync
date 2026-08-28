@@ -1,0 +1,40 @@
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdown__row {
+  display: grid;
+  grid-template-columns: 32px 1fr 22px;
+  align-items: center;
+  gap: 10px;
+}
+
+.breakdown__label {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.breakdown__track {
+  height: 6px;
+  border-radius: 99px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.breakdown__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--neon);
+  transition: width 0.3s ease;
+}
+
+.breakdown__count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+  text-align: right;
+}

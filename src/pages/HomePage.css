@@ -1,0 +1,138 @@
+.section {
+  padding-block: 0 88px;
+}
+
+.section--recent {
+  padding-block: 0 24px;
+}
+
+.recent__heading {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+
+.recent__list {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.recent__item {
+  flex: 0 0 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .cover {
+    width: 150px;
+    aspect-ratio: 1;
+  }
+}
+
+.recent__title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13.5px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  &:hover {
+    color: var(--neon);
+  }
+}
+
+.recent__artist {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.state {
+  margin-top: 32px;
+  padding: 20px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  p {
+    margin: 0;
+  }
+}
+
+.state--error p {
+  color: var(--danger);
+}
+
+.state__retry {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--neon);
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    border-color: var(--neon);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.grid-empty {
+  margin-top: 40px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  padding: 44px 24px;
+  text-align: center;
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    color: var(--muted);
+    margin: 0 0 20px;
+  }
+}
+
+.grid-empty__reset {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--neon);
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    border-color: var(--neon);
+    color: var(--neon);
+  }
+}

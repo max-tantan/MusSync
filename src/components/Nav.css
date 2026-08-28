@@ -1,0 +1,171 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 12px;
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.nav__accent {
+  font-weight: 500;
+  color: var(--faint);
+}
+
+.nav__mark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+
+  i {
+    width: 2px;
+    background: var(--faint);
+    border-radius: 1px;
+    &:nth-child(1) {
+      height: 40%;
+    }
+    &:nth-child(2) {
+      height: 90%;
+    }
+    &:nth-child(3) {
+      height: 60%;
+    }
+    &:nth-child(4) {
+      height: 100%;
+      background: var(--neon);
+    }
+  }
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav__link {
+  position: relative;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  border-radius: 8px;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+
+  &:hover {
+    color: var(--text);
+  }
+
+  &.is-active {
+    color: var(--text);
+    background: var(--surface);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 3px;
+      height: 2px;
+      background: var(--neon);
+    }
+  }
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav__tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav__tool {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    color: var(--text);
+    border-color: var(--faint);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav__links {
+    gap: 0;
+  }
+
+  .nav__link {
+    padding: 8px 10px;
+    font-size: 13.5px;
+  }
+
+  .nav__tool {
+    padding: 4px 9px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav__brand {
+    font-size: 15px;
+  }
+
+  .nav__right {
+    gap: 6px;
+  }
+
+  .nav__link {
+    padding: 6px 7px;
+    font-size: 12.5px;
+
+    &.is-active::after {
+      left: 7px;
+      right: 7px;
+    }
+  }
+
+  .nav__tool {
+    display: none;
+  }
+}

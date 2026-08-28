@@ -1,0 +1,150 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+}
+
+.form__input {
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 11px 14px;
+  width: 100%;
+  transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: var(--faint);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--muted);
+  }
+}
+
+.form__input--area {
+  resize: vertical;
+  min-height: 96px;
+  line-height: 1.5;
+}
+
+.form__error {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.form__submit {
+  align-self: flex-start;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  color: #0a0b00;
+  background: var(--neon);
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    opacity: 0.88;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.form__closed {
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.form__closed--ok {
+  border-color: rgba(242, 216, 0, 0.45);
+  background: var(--neon-soft);
+}
+
+.form__closed-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 4px;
+}
+
+.form__closed-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.form__sub {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px 8px;
+  margin: 0;
+
+  > legend {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    padding: 0 6px;
+  }
+}
+
+.form__sub-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0 10px;
+}
+
+.form__sub-label {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.form__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.form__cancel {
+  font-family: var(--display);
+  font-size: 14px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 9px 18px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--text);
+    border-color: var(--faint);
+  }
+}
