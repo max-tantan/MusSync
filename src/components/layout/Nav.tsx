@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { randomAlbum } from '../lib/lastfm'
-import { useTheme } from '../lib/theme'
+import { randomAlbum } from '../../services/lastfm'
+import { useTheme } from '../../hooks/useTheme'
 import './Nav.css'
 
 function Mark() {

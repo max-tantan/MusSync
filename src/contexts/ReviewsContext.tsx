@@ -2,7 +2,7 @@
 import { createContext, useCallback, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Review } from '../types'
-import { loadUser } from '../lib/user'
+import { loadUser } from '../utils/user'
 
 const STORAGE_KEY = 'mussync.reviews.v2'
 

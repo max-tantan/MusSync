@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { waveBars } from '../lib/wave'
+import { waveBars } from '../../utils/wave'
 import './CoverArt.css'
 
 interface CoverArtProps {

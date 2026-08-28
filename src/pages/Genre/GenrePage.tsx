@@ -1,11 +1,11 @@
 /* oxlint-disable react/set-state-in-effect */
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { GENRE_META, metaByTag } from '../data/genres'
-import { tagTopAlbums, LastFmError } from '../lib/lastfm'
-import type { CatalogItem } from '../types'
-import MusicCard from '../components/MusicCard'
-import { SkeletonCards } from '../components/Skeleton'
+import { GENRE_META, metaByTag } from '../../data/genres'
+import { tagTopAlbums, LastFmError } from '../../services/lastfm'
+import type { CatalogItem } from '../../types'
+import MusicCard from '../../components/catalog/MusicCard'
+import { SkeletonCards } from '../../components/skeleton/Skeleton'
 import './GenrePage.css'
 
 type Status = 'loading' | 'done' | 'error'

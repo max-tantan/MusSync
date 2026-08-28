@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { useReviews } from '../context/ReviewsContext'
-import { loadUser, USER_KEY } from '../lib/user'
-import type { Review, ReviewSub } from '../types'
-import RatingStars from './RatingStars'
+import { useReviews } from '../../contexts/ReviewsContext'
+import { loadUser, USER_KEY } from '../../utils/user'
+import type { Review, ReviewSub } from '../../types'
+import RatingStars from '../rating/RatingStars'
 import './ReviewForm.css'
 
 const MEDIUM_OPTIONS = ['Digital', 'Vinyl', 'CD', 'Kaset'] as const

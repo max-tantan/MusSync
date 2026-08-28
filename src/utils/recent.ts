@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
-
 const RECENT_KEY = 'mussync.recent.v1'
-const RECENT_EVT = 'mussync:recent'
+export const RECENT_EVT = 'mussync:recent'
 const MAX = 8
 
 export interface RecentEntry {
@@ -36,16 +34,4 @@ export function pushRecent(entry: RecentEntry) {
   ].slice(0, MAX)
   persist(next)
   window.dispatchEvent(new Event(RECENT_EVT))
-}
-
-export function useRecents(): RecentEntry[] {
-  const [list, setList] = useState<RecentEntry[]>(loadRecents)
-
-  useEffect(() => {
-    const handler = () => setList(loadRecents())
-    window.addEventListener(RECENT_EVT, handler)
-    return () => window.removeEventListener(RECENT_EVT, handler)
-  }, [])
-
-  return list
 }

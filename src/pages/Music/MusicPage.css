@@ -46,16 +46,6 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
-
-  .tag {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 4px 10px;
-  }
 }
 
 .detail__metrics {
@@ -374,17 +364,5 @@
   h1 {
     font-size: 28px;
     margin-top: 16px;
-  }
-}
-
-.back-link {
-  margin-top: 14px;
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--neon);
-
-  &:hover {
-    color: var(--text);
   }
 }

@@ -1,11 +1,11 @@
 /* oxlint-disable react/set-state-in-effect */
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { artistInfo, artistTopAlbums, LastFmError } from '../lib/lastfm'
-import type { ArtistInfo } from '../lib/lastfm'
-import type { CatalogItem } from '../types'
-import MusicCard from '../components/MusicCard'
-import { SkeletonCards } from '../components/Skeleton'
+import { artistInfo, artistTopAlbums, LastFmError } from '../../services/lastfm'
+import type { ArtistInfo } from '../../services/lastfm'
+import type { CatalogItem } from '../../types'
+import MusicCard from '../../components/catalog/MusicCard'
+import { SkeletonCards } from '../../components/skeleton/Skeleton'
 import './ArtistPage.css'
 
 type Status = 'loading' | 'done' | 'error'

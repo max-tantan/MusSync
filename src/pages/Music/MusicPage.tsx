@@ -6,24 +6,24 @@ import {
   artistTopAlbums,
   isMbidCandidate,
   LastFmError,
-} from '../lib/lastfm'
-import { useReviews } from '../context/ReviewsContext'
-import { useLibrary } from '../context/LibraryContext'
-import { pushRecent } from '../lib/recent'
-import { averageRating } from '../lib/score'
+} from '../../services/lastfm'
+import { useReviews } from '../../contexts/ReviewsContext'
+import { useLibrary } from '../../contexts/LibraryContext'
+import { pushRecent } from '../../utils/recent'
+import { averageRating } from '../../utils/score'
 import type {
   AlbumDetail,
   AlbumSnapshot,
   CatalogItem,
   ReviewSub as SubRating,
-} from '../types'
-import NeonScore from '../components/NeonScore'
-import CoverArt from '../components/CoverArt'
-import RatingStars from '../components/RatingStars'
-import RatingBreakdown from '../components/RatingBreakdown'
-import ReviewForm from '../components/ReviewForm'
-import MusicCard from '../components/MusicCard'
-import { SkeletonDetail, SkeletonScoring } from '../components/Skeleton'
+} from '../../types'
+import NeonScore from '../../components/rating/NeonScore'
+import CoverArt from '../../components/catalog/CoverArt'
+import RatingStars from '../../components/rating/RatingStars'
+import RatingBreakdown from '../../components/rating/RatingBreakdown'
+import ReviewForm from '../../components/review/ReviewForm'
+import MusicCard from '../../components/catalog/MusicCard'
+import { SkeletonDetail, SkeletonScoring } from '../../components/skeleton/Skeleton'
 import './MusicPage.css'
 
 type Status = 'loading' | 'done' | 'error'

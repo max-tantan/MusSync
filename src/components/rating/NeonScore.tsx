@@ -1,4 +1,4 @@
-import { formatScore } from '../lib/score'
+import { formatScore } from '../../utils/score'
 import './NeonScore.css'
 
 export default function NeonScore({ score }: { score: number }) {

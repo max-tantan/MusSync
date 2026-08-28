@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { GENRE_META } from '../data/genres'
+import { GENRE_META } from '../../data/genres'
 import './FilterBar.css'
 
 export type SortKey = 'default' | 'az' | 'listeners'

@@ -1,5 +1,5 @@
-import { distribution } from '../lib/score'
-import type { Review } from '../types'
+import { distribution } from '../../utils/score'
+import type { Review } from '../../types'
 import './RatingBreakdown.css'
 
 export default function RatingBreakdown({ reviews }: { reviews: Review[] }) {

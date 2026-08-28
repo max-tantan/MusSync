@@ -1,7 +1,3 @@
-.section {
-  padding-block: 0 88px;
-}
-
 .section--recent {
   padding-block: 0 24px;
 }
@@ -50,53 +46,6 @@
 .recent__artist {
   font-size: 12.5px;
   color: var(--muted);
-}
-
-.state {
-  margin-top: 32px;
-  padding: 20px;
-  border: 1px dashed var(--line-strong);
-  border-radius: 12px;
-  color: var(--muted);
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-
-  p {
-    margin: 0;
-  }
-}
-
-.state--error p {
-  color: var(--danger);
-}
-
-.state__retry {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--neon);
-  background: none;
-  border: 1px solid var(--line-strong);
-  border-radius: 8px;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    color 0.15s ease;
-
-  &:hover {
-    border-color: var(--neon);
-  }
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
 }
 
 .grid-empty {

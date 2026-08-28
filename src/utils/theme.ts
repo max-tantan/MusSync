@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react'
-
 export type Theme = 'dark' | 'light'
 
-const THEME_KEY = 'mussync.theme.v1'
-const THEME_EVT = 'mussync:theme'
+export const THEME_KEY = 'mussync.theme.v1'
+export const THEME_EVT = 'mussync:theme'
 
 export function getStoredTheme(): Theme | null {
   try {
@@ -31,16 +29,4 @@ export function setTheme(next: Theme) {
   }
   applyTheme(next)
   window.dispatchEvent(new CustomEvent(THEME_EVT, { detail: next }))
-}
-
-export function useTheme(): [Theme, (t: Theme) => void] {
-  const [theme, set] = useState<Theme>(getInitialTheme)
-
-  useEffect(() => {
-    const handler = (e: Event) => set((e as CustomEvent<Theme>).detail)
-    window.addEventListener(THEME_EVT, handler)
-    return () => window.removeEventListener(THEME_EVT, handler)
-  }, [])
-
-  return [theme, setTheme]
 }

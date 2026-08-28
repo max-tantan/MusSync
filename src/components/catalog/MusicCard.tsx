@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import type { CatalogItem } from '../types'
-import { useReviews } from '../context/ReviewsContext'
-import { averageRating } from '../lib/score'
-import RatingStars from './RatingStars'
+import type { CatalogItem } from '../../types'
+import { useReviews } from '../../contexts/ReviewsContext'
+import { averageRating } from '../../utils/score'
+import RatingStars from '../rating/RatingStars'
 import CoverArt from './CoverArt'
 import './MusicCard.css'
 
