@@ -1,0 +1,113 @@
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar__frame {
+  position: relative;
+  width: 96px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--surface-2);
+  border: 1px dashed var(--line-strong);
+  overflow: hidden;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    border-color: var(--neon);
+    transform: scale(1.02);
+  }
+
+  &.is-drag {
+    border-color: var(--neon);
+    transform: scale(1.04);
+  }
+
+  &.has-img {
+    border-style: solid;
+  }
+}
+
+.avatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar__placeholder {
+  color: var(--faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar__badge {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid var(--line-strong);
+
+  &:hover {
+    color: var(--neon);
+  }
+}
+
+.avatar__error {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--danger);
+  text-align: center;
+  max-width: 220px;
+}
+
+.avatar__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.avatar__btn {
+  font-family: var(--display);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--neon);
+  }
+}
+
+.avatar__btn--danger {
+  color: var(--danger);
+
+  &:hover {
+    border-color: var(--danger);
+  }
+}
+
+.avatar__hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--faint);
+}

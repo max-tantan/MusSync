@@ -1,0 +1,51 @@
+.rdist {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.rdist__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rdist__label {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--neon);
+  width: 72px;
+  flex: none;
+  letter-spacing: 1px;
+
+  em {
+    font-style: normal;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+}
+
+.rdist__bar {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--neon);
+    opacity: 0.8;
+  }
+}
+
+.rdist__pct {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+  width: 40px;
+  text-align: right;
+  flex: none;
+}

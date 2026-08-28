@@ -20,11 +20,17 @@
   }
 }
 
-.card__score {
+.card__topright {
   position: absolute;
-  top: 10px;
-  right: 12px;
+  top: 8px;
+  right: 10px;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card__score {
   font-family: var(--mono);
   font-weight: 500;
   font-size: 15px;

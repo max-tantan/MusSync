@@ -1,0 +1,44 @@
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeline__year {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text);
+  width: 48px;
+  flex: none;
+}
+
+.timeline__bar {
+  flex: 1;
+  height: 14px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--neon), #ffba00);
+    opacity: 0.85;
+  }
+}
+
+.timeline__count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  width: 48px;
+  text-align: right;
+  flex: none;
+}

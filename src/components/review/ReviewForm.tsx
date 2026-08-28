@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useReviews } from '../../contexts/ReviewsContext'
-import { loadUser, USER_KEY } from '../../utils/user'
+import { loadUser, saveUsername } from '../../utils/user'
 import type { Review, ReviewSub } from '../../types'
 import RatingStars from '../rating/RatingStars'
 import './ReviewForm.css'
@@ -74,10 +74,8 @@ export default function ReviewForm({
       onSaved?.()
     } else {
       addReview(musicId, payload)
-      try {
-        localStorage.setItem(USER_KEY, name.trim())
-      } catch {
-        // penyimpanan penuh — lewati
+      if (name.trim()) {
+        saveUsername(name.trim())
       }
       setRating(0)
       setText('')

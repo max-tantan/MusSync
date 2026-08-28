@@ -1,0 +1,40 @@
+.qstats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .qstats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.qstats__card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+
+  strong {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  > span:last-child {
+    font-size: 13px;
+    color: var(--muted);
+  }
+}
+
+.qstats__icon {
+  color: var(--neon);
+  margin-bottom: 2px;
+}

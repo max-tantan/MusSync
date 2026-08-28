@@ -11,13 +11,15 @@ import CoverArt from '../../components/catalog/CoverArt'
 import RatingBreakdown from '../../components/rating/RatingBreakdown'
 import './LibraryPage.css'
 
-type Tab = 'rated' | 'want' | 'stats'
+type Tab = 'rated' | 'want' | 'favorite' | 'stats'
 
 export default function LibraryPage() {
   const {
     library,
+    favorites,
     ratedCount,
     wantCount,
+    favoriteCount,
     remove,
     exportJSON,
     importJSON,
@@ -34,6 +36,10 @@ export default function LibraryPage() {
   const want: LibraryEntry[] = useMemo(
     () => Object.values(library).filter((e) => e.status === 'want'),
     [library],
+  )
+  const favoritesList: LibraryEntry[] = useMemo(
+    () => Object.values(favorites),
+    [favorites],
   )
 
   const user = loadUser()
@@ -118,6 +124,15 @@ export default function LibraryPage() {
           <button
             type="button"
             role="tab"
+            aria-selected={tab === 'favorite'}
+            className={`lib-tab${tab === 'favorite' ? ' is-on' : ''}`}
+            onClick={() => setTab('favorite')}
+          >
+            Favorit ({favoriteCount})
+          </button>
+          <button
+            type="button"
+            role="tab"
             aria-selected={tab === 'stats'}
             className={`lib-tab${tab === 'stats' ? ' is-on' : ''}`}
             onClick={() => setTab('stats')}
@@ -182,6 +197,22 @@ export default function LibraryPage() {
             <div className="lib-empty">
               <p>
                 Kosong. Klik "Mau dengar" di halaman album untuk menandainya.
+              </p>
+            </div>
+          ))}
+
+        {tab === 'favorite' &&
+          (favoritesList.length > 0 ? (
+            <div className="grid">
+              {favoritesList.map((e) => (
+                <MusicCard key={e.item.id} item={e.item} />
+              ))}
+            </div>
+          ) : (
+            <div className="lib-empty">
+              <p>
+                Kosong. Klik ikon hati di halaman album atau kartu album untuk
+                menandainya sebagai favorit.
               </p>
             </div>
           ))}

@@ -1,0 +1,22 @@
+.profile__heading {
+  font-size: 15px;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+
+.profile__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 700px) {
+  .profile__cols {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.profile__col {
+  min-width: 0;
+}

@@ -23,6 +23,7 @@ import RatingStars from '../../components/rating/RatingStars'
 import RatingBreakdown from '../../components/rating/RatingBreakdown'
 import ReviewForm from '../../components/review/ReviewForm'
 import MusicCard from '../../components/catalog/MusicCard'
+import HeartButton from '../../components/ui/HeartButton'
 import { SkeletonDetail, SkeletonScoring } from '../../components/skeleton/Skeleton'
 import './MusicPage.css'
 
@@ -58,7 +59,7 @@ function toSnapshot(album: AlbumDetail): AlbumSnapshot {
 export default function MusicPage() {
   const { id } = useParams()
   const { reviewsFor, myReview, removeReview } = useReviews()
-  const { isWanted, toggleWant, markRated } = useLibrary()
+  const { isWanted, toggleWant, markRated, isFavorite, toggleFavorite } = useLibrary()
 
   const [album, setAlbum] = useState<AlbumDetail | null>(null)
   const [status, setStatus] = useState<Status>('loading')
@@ -311,13 +312,20 @@ export default function MusicPage() {
           <RatingBreakdown reviews={reviews} />
           <div className="detail__actions">
             {snapshot && (
-              <button
-                type="button"
-                className={`detail__ghost${wanted ? ' is-on' : ''}`}
-                onClick={() => toggleWant(snapshot)}
-              >
-                {wanted ? 'Batal mau dengar' : 'Mau dengar'}
-              </button>
+              <>
+                <HeartButton
+                  isFavorite={isFavorite(snapshot.id)}
+                  onToggle={() => toggleFavorite(snapshot)}
+                  size="lg"
+                />
+                <button
+                  type="button"
+                  className={`detail__ghost${wanted ? ' is-on' : ''}`}
+                  onClick={() => toggleWant(snapshot)}
+                >
+                  {wanted ? 'Batal mau dengar' : 'Mau dengar'}
+                </button>
+              </>
             )}
             <button type="button" className="detail__ghost" onClick={handleShare}>
               {copied ? 'Tersalin ✓' : 'Salin tautan'}

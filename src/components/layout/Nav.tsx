@@ -19,6 +19,7 @@ const links = [
   { to: '/', label: 'Beranda', end: true },
   { to: '/genre', label: 'Genre', end: false },
   { to: '/library', label: 'Pustaka', end: false },
+  { to: '/profile', label: 'Profil', end: false },
   { to: '/tentang', label: 'Tentang', end: false },
 ]
 

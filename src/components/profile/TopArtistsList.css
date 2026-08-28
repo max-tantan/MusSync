@@ -1,0 +1,56 @@
+.topartists {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topartists li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topartists__rank {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--faint);
+  width: 20px;
+  flex: none;
+}
+
+.topartists__name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14.5px;
+  min-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topartists__bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--neon);
+    opacity: 0.85;
+  }
+}
+
+.topartists__count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  flex: none;
+}

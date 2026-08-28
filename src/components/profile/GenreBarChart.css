@@ -1,0 +1,53 @@
+.genrechart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.genrechart__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.genrechart__name {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  width: 96px;
+  flex: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.genrechart__bar {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--neon);
+    opacity: 0.8;
+  }
+}
+
+.genrechart__count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+  width: 24px;
+  text-align: right;
+  flex: none;
+}
+
+.hint-p {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}

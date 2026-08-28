@@ -41,9 +41,11 @@ export interface AlbumSnapshot {
   playcount?: number
 }
 
+export type LibraryStatus = 'rated' | 'want' | 'favorite'
+
 export interface LibraryEntry {
   item: AlbumSnapshot
-  status: 'rated' | 'want'
+  status: LibraryStatus
   createdAt: string
 }
 
