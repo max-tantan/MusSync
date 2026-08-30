@@ -9,11 +9,11 @@
 .genre-tile {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 20px;
+  padding: 12px;
   transition:
     border-color 0.2s ease,
     transform 0.2s ease;
@@ -28,11 +28,34 @@
   }
 }
 
+.genre-tile__art {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.genre-tile__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.genre-tile__img--placeholder {
+  background: linear-gradient(
+    135deg,
+    var(--surface-2),
+    var(--line-strong)
+  );
+}
+
 .genre-tile__name {
   font-family: var(--display);
   font-weight: 700;
   font-size: 18px;
   letter-spacing: -0.01em;
+  padding: 0 4px;
   transition: color 0.2s ease;
 }
 
@@ -40,6 +63,7 @@
   font-family: var(--mono);
   font-size: 12px;
   color: var(--faint);
+  padding: 0 4px;
 }
 
 .genre-chips {

@@ -149,42 +149,81 @@
 .nav__tools {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding-left: 6px;
+  gap: 12px;
+  padding-left: 14px;
   border-left: 1px solid var(--line);
 }
 
-.nav__tool {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-  background: transparent;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  padding: 5px 12px;
+.nav__switch {
+  background: none;
+  border: 0;
+  padding: 0;
   cursor: pointer;
-  transition:
-    color 0.15s ease,
-    border-color 0.15s ease;
+  line-height: 0;
 
-  &:hover {
-    color: var(--text);
-    border-color: var(--faint);
+  .nav__switch-track {
+    position: relative;
+    display: block;
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--line-strong);
+    border: 1px solid var(--line);
+    transition: background 0.2s ease, border-color 0.2s ease;
   }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .nav__switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  &.is-light {
+    .nav__switch-track {
+      background: var(--neon);
+      border-color: var(--neon);
+    }
+
+    .nav__switch-thumb {
+      transform: translateX(20px);
+    }
   }
 }
 
-.nav__tool--theme {
-  color: var(--neon);
-  border-color: color-mix(in srgb, var(--neon) 35%, transparent);
+.nav__profile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
 
   &:hover {
     border-color: var(--neon);
+    transform: scale(1.05);
   }
+}
+
+.nav__avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 700px) {
@@ -195,11 +234,6 @@
   .nav__link {
     padding: 7px 9px 8px;
     font-size: 13.5px;
-  }
-
-  .nav__tool {
-    padding: 4px 9px;
-    font-size: 11px;
   }
 
   .nav__branddata {
@@ -221,9 +255,5 @@
     padding: 6px 7px 7px;
     font-size: 12.5px;
     gap: 4px;
-  }
-
-  .nav__tool {
-    display: none;
   }
 }

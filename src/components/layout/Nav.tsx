@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { randomAlbum } from '../../services/lastfm'
+import { Link, NavLink } from 'react-router-dom'
 import { useTheme } from '../../hooks/useTheme'
+import { useProfile } from '../../contexts/ProfileContext'
+import { UserIcon } from '../icons'
 import './Nav.css'
 
 const BARS = [0.5, 1, 0.7, 0.9]
@@ -33,28 +33,30 @@ function Mark() {
   )
 }
 
+function ProfileButton() {
+  const { profile } = useProfile()
+  return (
+    <Link to="/profile" className="nav__profile" title="Profil">
+      {profile.avatar ? (
+        <img src={profile.avatar} alt="Foto profil" className="nav__avatar" />
+      ) : (
+        <span className="nav__avatar">
+          <UserIcon size={18} />
+        </span>
+      )}
+    </Link>
+  )
+}
+
 const links = [
   { to: '/', label: 'Beranda', end: true },
   { to: '/genre', label: 'Genre', end: false },
   { to: '/library', label: 'Pustaka', end: false },
-  { to: '/profile', label: 'Profil', end: false },
 ]
 
 export default function Nav() {
-  const navigate = useNavigate()
   const [theme, setTheme] = useTheme()
-  const [busy, setBusy] = useState(false)
-
-  async function goRandom() {
-    if (busy) return
-    setBusy(true)
-    try {
-      const item = await randomAlbum()
-      navigate(`/music/${encodeURIComponent(item.id)}`)
-    } catch {
-      setBusy(false)
-    }
-  }
+  const light = theme === 'light'
 
   return (
     <header className="nav">
@@ -64,7 +66,7 @@ export default function Nav() {
           <span>
             Mus<span className="nav__accent">Sync</span>
           </span>
-          <span className="nav__branddata">/ papan skor</span>
+          <span className="nav__branddata">Powered by Last.fm</span>
         </Link>
 
         <div className="nav__right">
@@ -91,21 +93,17 @@ export default function Nav() {
           <div className="nav__tools">
             <button
               type="button"
-              className="nav__tool"
-              onClick={goRandom}
-              disabled={busy}
-              title="Lompat ke album acak"
+              role="switch"
+              aria-checked={light}
+              aria-label="Ganti tema gelap terang"
+              className={`nav__switch${light ? ' is-light' : ''}`}
+              onClick={() => setTheme(light ? 'dark' : 'light')}
             >
-              {busy ? '…' : 'acak'}
+              <span className="nav__switch-track" aria-hidden="true">
+                <span className="nav__switch-thumb" />
+              </span>
             </button>
-            <button
-              type="button"
-              className="nav__tool nav__tool--theme"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              title="Ganti tema"
-            >
-              {theme === 'dark' ? 'terang' : 'gelap'}
-            </button>
+            <ProfileButton />
           </div>
         </div>
       </div>
