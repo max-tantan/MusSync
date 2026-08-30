@@ -8,12 +8,13 @@
   position: relative;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 10px;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 
   &:hover {
     border-color: var(--line-strong);
+    transform: translateY(-2px);
   }
 }
 

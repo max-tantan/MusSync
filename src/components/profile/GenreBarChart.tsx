@@ -6,21 +6,25 @@ export default function GenreBarChart({
 }: {
   genres: GenreStat[]
 }) {
-  const max = genres.length > 0 ? genres[0].count : 1
   if (genres.length === 0) {
     return <p className="hint-p">Belum ada data genre.</p>
   }
+  const max = genres[0].count
   return (
-    <div className="genrechart">
-      {genres.map((g) => (
-        <div className="genrechart__row" key={g.name}>
-          <span className="genrechart__name">{g.name}</span>
-          <span className="genrechart__bar">
-            <i style={{ width: `${Math.round((g.count / max) * 100)}%` }} />
+    <div className="genrecloud">
+      {genres.map((g) => {
+        const level = Math.round((g.count / max) * 3)
+        return (
+          <span
+            key={g.name}
+            className={`genrecloud__pill genrecloud__pill--${level}`}
+            title={`${g.count} album`}
+          >
+            {g.name}
+            <em>{g.count}</em>
           </span>
-          <span className="genrechart__count">{g.count}</span>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

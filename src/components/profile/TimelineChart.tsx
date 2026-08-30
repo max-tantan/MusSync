@@ -11,15 +11,21 @@ export default function TimelineChart({
   }
   return (
     <div className="timeline">
-      {data.map((y) => (
-        <div className="timeline__row" key={y.year}>
-          <span className="timeline__year">{y.year}</span>
-          <span className="timeline__bar">
-            <i style={{ width: `${Math.round((y.count / y.max) * 100)}%` }} />
-          </span>
-          <span className="timeline__count">{y.count}</span>
-        </div>
-      ))}
+      <div className="timeline__chart" role="img" aria-label="Album dinilai per tahun">
+        {data.map((y) => (
+          <div className="timeline__col" key={y.year}>
+            <span className="timeline__count">{y.count}</span>
+            <span className="timeline__bar">
+              <i
+                style={{
+                  height: `${Math.max(6, Math.round((y.count / y.max) * 100))}%`,
+                }}
+              />
+            </span>
+            <span className="timeline__year">{y.year}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

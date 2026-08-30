@@ -1,7 +1,11 @@
 .qstats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 @media (max-width: 640px) {
@@ -13,28 +17,40 @@
 .qstats__card {
   position: relative;
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 20px 18px;
+  padding: 22px 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   overflow: hidden;
-
-  strong {
-    font-family: var(--display);
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  > span:last-child {
-    font-size: 13px;
-    color: var(--muted);
-  }
 }
 
 .qstats__icon {
   color: var(--neon);
-  margin-bottom: 2px;
+  display: inline-flex;
+}
+
+.qstats__value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+
+  strong {
+    font-family: var(--display);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  em {
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+  }
+}
+
+.qstats__label {
+  font-size: 12.5px;
+  color: var(--muted);
 }

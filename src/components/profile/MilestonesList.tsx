@@ -11,10 +11,10 @@ export default function MilestonesList({
     <div className="milestones">
       {milestones.map((m) => (
         <div
-          className={`milestone${m.achieved ? ' is-done' : ''}`}
+          className={`milestone${m.achieved ? ' is-done' : ' is-locked'}`}
           key={m.id}
         >
-          <span className="milestone__icon">
+          <span className="milestone__badge" aria-hidden="true">
             <TrophyIcon size={18} />
           </span>
           <div className="milestone__body">
@@ -22,7 +22,7 @@ export default function MilestonesList({
             <span>{m.description}</span>
           </div>
           <span className="milestone__status">
-            {m.achieved ? 'Tercapai' : 'Belum'}
+            {m.achieved ? 'tercapai' : 'terkunci'}
           </span>
         </div>
       ))}
