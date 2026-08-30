@@ -1,7 +1,7 @@
 /* oxlint-disable react/set-state-in-effect */
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { homeAlbums, albumSearch, LastFmError } from '../../services/lastfm'
+import { homeAlbums, albumSearch, tagTopAlbums, LastFmError } from '../../services/lastfm'
 import { useReviews } from '../../contexts/ReviewsContext'
 import { useRecents } from '../../hooks/useRecents'
 import type { CatalogItem } from '../../types'
@@ -11,10 +11,25 @@ import FilterBar from '../../components/catalog/FilterBar'
 import type { SortKey } from '../../components/catalog/FilterBar'
 import CoverArt from '../../components/catalog/CoverArt'
 import MusicCard from '../../components/catalog/MusicCard'
+import EditorialRow from '../../components/home/EditorialRow'
 import { SkeletonCards } from '../../components/skeleton/Skeleton'
 import './HomePage.css'
 
 type Status = 'loading' | 'done' | 'error'
+
+const ROW_SIZE = 12
+
+function byListenersDesc(list: CatalogItem[]) {
+  return [...list].sort((a, b) => (b.listeners ?? 0) - (a.listeners ?? 0))
+}
+
+function byListenersAsc(list: CatalogItem[]) {
+  return [...list].sort((a, b) => (a.listeners ?? 0) - (b.listeners ?? 0))
+}
+
+function firstN(list: CatalogItem[], n: number) {
+  return list.slice(0, n)
+}
 
 export default function HomePage() {
   const { reviewCount } = useReviews()
@@ -25,6 +40,92 @@ export default function HomePage() {
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<SortKey>('default')
   const [attempt, setAttempt] = useState(0)
+
+  const [trending, setTrending] = useState<CatalogItem[]>([])
+  const [trendingLoading, setTrendingLoading] = useState(true)
+  const [timeless, setTimeless] = useState<CatalogItem[]>([])
+  const [timelessLoading, setTimelessLoading] = useState(true)
+  const [indonesia, setIndonesia] = useState<CatalogItem[]>([])
+  const [indonesiaLoading, setIndonesiaLoading] = useState(true)
+  const [global, setGlobal] = useState<CatalogItem[]>([])
+  const [globalLoading, setGlobalLoading] = useState(true)
+  const [underrated, setUnderrated] = useState<CatalogItem[]>([])
+  const [underratedLoading, setUnderratedLoading] = useState(true)
+
+  useEffect(() => {
+    let alive = true
+    homeAlbums()
+      .then((list) => {
+        if (alive) {
+          setTrending(firstN(byListenersDesc(list), ROW_SIZE))
+          setTrendingLoading(false)
+        }
+      })
+      .catch(() => alive && setTrendingLoading(false))
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let alive = true
+    tagTopAlbums('classic rock', ROW_SIZE)
+      .then((list) => {
+        if (alive) {
+          setTimeless(firstN(list, ROW_SIZE))
+          setTimelessLoading(false)
+        }
+      })
+      .catch(() => alive && setTimelessLoading(false))
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let alive = true
+    tagTopAlbums('indonesian', ROW_SIZE)
+      .then((list) => {
+        if (alive) {
+          setIndonesia(firstN(list, ROW_SIZE))
+          setIndonesiaLoading(false)
+        }
+      })
+      .catch(() => alive && setIndonesiaLoading(false))
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let alive = true
+    tagTopAlbums('pop', ROW_SIZE)
+      .then((list) => {
+        if (alive) {
+          setGlobal(firstN(list, ROW_SIZE))
+          setGlobalLoading(false)
+        }
+      })
+      .catch(() => alive && setGlobalLoading(false))
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let alive = true
+    tagTopAlbums('rock', 60)
+      .then((list) => {
+        if (alive) {
+          setUnderrated(firstN(byListenersAsc(list), ROW_SIZE))
+          setUnderratedLoading(false)
+        }
+      })
+      .catch(() => alive && setUnderratedLoading(false))
+    return () => {
+      alive = false
+    }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -92,6 +193,36 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+      )}
+
+      {!query.trim() && (
+        <>
+          <EditorialRow
+            title="Paling banyak didengar"
+            items={trending}
+            loading={trendingLoading}
+          />
+          <EditorialRow
+            title="Abadi sepanjang masa"
+            items={timeless}
+            loading={timelessLoading}
+          />
+          <EditorialRow
+            title="Musik Indonesia"
+            items={indonesia}
+            loading={indonesiaLoading}
+          />
+          <EditorialRow
+            title="Hits mancanegara"
+            items={global}
+            loading={globalLoading}
+          />
+          <EditorialRow
+            title="Underrated — biarkan kupingmu menjelajah"
+            items={underrated}
+            loading={underratedLoading}
+          />
+        </>
       )}
 
       <section className="container section">
