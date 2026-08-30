@@ -98,3 +98,15 @@ export interface GenreMeta {
   label: Genre
   tag: string
 }
+
+export type SimilarAlbumRef =
+  | { mbid: string }
+  | { artist: string; album: string }
+
+export interface ArtistItem {
+  name: string
+  image: string | null
+  mbid?: string
+  listeners?: number
+  url?: string
+}

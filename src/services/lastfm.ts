@@ -1,4 +1,4 @@
-import type { AlbumDetail, AlbumTrack, CatalogItem } from '../types'
+import type { AlbumDetail, AlbumTrack, ArtistItem, CatalogItem, SimilarAlbumRef } from '../types'
 
 const API_KEY = import.meta.env.VITE_LASTFM_API_KEY ?? ''
 const CACHE_PREFIX = 'mussync.lf.v1.'
@@ -309,6 +309,108 @@ export function artistInfo(name: string): Promise<ArtistInfo> {
     )
 
   return cached(`artist-${name}-info`, DETAIL_TTL, fetchIt)
+}
+
+interface RawArtistMatch {
+  name: string
+  mbid?: string
+  image?: ImageEntry[]
+  listeners?: string
+  url?: string
+}
+
+function toArtistItem(raw: RawArtistMatch): ArtistItem {
+  return {
+    name: raw.name ?? '',
+    image: pickImage(raw.image),
+    mbid: raw.mbid || undefined,
+    listeners: parseNum(raw.listeners),
+    url: raw.url,
+  }
+}
+
+export function artistSearch(
+  query: string,
+  limit = 12,
+): Promise<ArtistItem[]> {
+  const fetchIt = () =>
+    request<{ results: { artistmatches: { artist: RawArtistMatch[] } } }>({
+      method: 'artist.search',
+      artist: query,
+      limit: String(limit),
+    }).then((d) => (d.results?.artistmatches?.artist ?? []).map(toArtistItem))
+
+  return cached(`artist-search-${query}-${limit}`, 30 * 60 * 1000, fetchIt)
+}
+
+export function topArtists(limit = 12): Promise<ArtistItem[]> {
+  const fetchIt = () =>
+    request<{ artists: { artist: RawArtistMatch[] } }>({
+      method: 'chart.gettopartists',
+      limit: String(limit),
+    }).then((d) => (d.artists?.artist ?? []).map(toArtistItem))
+
+  return cached(`top-artists-${limit}`, DEFAULT_TTL, fetchIt)
+}
+
+interface RawSimilarAlbums {
+  similaralbums: {
+    album?: Array<{
+      name: string
+      artist: string | { name: string }
+      mbid?: string
+      image?: ImageEntry[]
+      url?: string
+    }>
+  }
+}
+
+export function similarAlbums(
+  ref: SimilarAlbumRef,
+  limit = 12,
+): Promise<CatalogItem[]> {
+  const params: LastFmParams = { method: 'album.getsimilar', limit: String(limit) }
+  if ('mbid' in ref) params.mbid = ref.mbid
+  else {
+    params.artist = ref.artist
+    params.album = ref.album
+  }
+
+  const fetchIt = () =>
+    request<RawSimilarAlbums>(params).then((d) =>
+      (d.similaralbums?.album ?? []).map((raw) => {
+        const artist =
+          typeof raw.artist === 'string' ? raw.artist : (raw.artist?.name ?? '?')
+        return {
+          id: albumId(artist, raw.name ?? '', raw.mbid),
+          title: raw.name ?? '(tanpa judul)',
+          artist,
+          image: pickImage(raw.image),
+          mbid: raw.mbid || undefined,
+          url: raw.url,
+        }
+      }),
+    )
+
+  const cacheKey = 'mbid' in ref ? `sim-${ref.mbid}` : `sim-${ref.artist}-${ref.album}`
+  return cached(cacheKey, DETAIL_TTL, fetchIt)
+}
+
+interface RawSimilarArtists {
+  similarartists: {
+    artist?: RawArtistMatch[]
+  }
+}
+
+export function similarArtists(name: string, limit = 6): Promise<ArtistItem[]> {
+  const fetchIt = () =>
+    request<RawSimilarArtists>({
+      method: 'artist.getsimilar',
+      artist: name,
+      limit: String(limit),
+    }).then((d) => (d.similarartists?.artist ?? []).map(toArtistItem))
+
+  return cached(`sim-artist-${name}-${limit}`, DEFAULT_TTL, fetchIt)
 }
 
 export async function randomAlbum(): Promise<CatalogItem> {

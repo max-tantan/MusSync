@@ -24,6 +24,7 @@ import RatingBreakdown from '../../components/rating/RatingBreakdown'
 import ReviewForm from '../../components/review/ReviewForm'
 import MusicCard from '../../components/catalog/MusicCard'
 import HeartButton from '../../components/ui/HeartButton'
+import SimilarAlbums from '../../components/home/SimilarAlbums'
 import { SkeletonDetail, SkeletonScoring } from '../../components/skeleton/Skeleton'
 import './MusicPage.css'
 
@@ -475,6 +476,12 @@ export default function MusicPage() {
           </div>
         </section>
       )}
+
+      <SimilarAlbums
+        ref={album.mbid ? { mbid: album.mbid } : { artist: album.artist, album: album.title }}
+        artist={album.artist}
+        excludeId={album.id}
+      />
     </div>
   )
 }

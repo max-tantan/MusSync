@@ -1,16 +1,26 @@
 /* oxlint-disable react/set-state-in-effect */
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { homeAlbums, albumSearch, tagTopAlbums, LastFmError } from '../../services/lastfm'
+import {
+  homeAlbums,
+  albumSearch,
+  tagTopAlbums,
+  artistSearch,
+  topArtists,
+  similarAlbums,
+  LastFmError,
+} from '../../services/lastfm'
 import { useReviews } from '../../contexts/ReviewsContext'
+import { useLibrary } from '../../contexts/LibraryContext'
 import { useRecents } from '../../hooks/useRecents'
-import type { CatalogItem } from '../../types'
+import type { ArtistItem, CatalogItem } from '../../types'
 import { GENRES } from '../../types'
 import Hero from '../../components/hero/Hero'
 import FilterBar from '../../components/catalog/FilterBar'
 import type { SortKey } from '../../components/catalog/FilterBar'
 import CoverArt from '../../components/catalog/CoverArt'
 import MusicCard from '../../components/catalog/MusicCard'
+import ArtistRow from '../../components/home/ArtistRow'
 import EditorialRow from '../../components/home/EditorialRow'
 import { SkeletonCards } from '../../components/skeleton/Skeleton'
 import './HomePage.css'
@@ -51,6 +61,15 @@ export default function HomePage() {
   const [globalLoading, setGlobalLoading] = useState(true)
   const [underrated, setUnderrated] = useState<CatalogItem[]>([])
   const [underratedLoading, setUnderratedLoading] = useState(true)
+
+  const [topArtistsList, setTopArtistsList] = useState<ArtistItem[]>([])
+  const [topArtistsLoading, setTopArtistsLoading] = useState(true)
+  const [artistResults, setArtistResults] = useState<ArtistItem[]>([])
+  const [artistResultsStatus, setArtistResultsStatus] = useState(false)
+  const [recs, setRecs] = useState<CatalogItem[]>([])
+  const [recsLoading, setRecsLoading] = useState(false)
+
+  const { library } = useLibrary()
 
   useEffect(() => {
     let alive = true
@@ -128,6 +147,91 @@ export default function HomePage() {
   }, [])
 
   useEffect(() => {
+    let alive = true
+    topArtists(12)
+      .then((list) => {
+        if (alive) {
+          setTopArtistsList(list)
+          setTopArtistsLoading(false)
+        }
+      })
+      .catch(() => alive && setTopArtistsLoading(false))
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  useEffect(() => {
+    const q = query.trim()
+    if (!q) {
+      setArtistResults([])
+      setArtistResultsStatus(false)
+      return
+    }
+    let alive = true
+    setArtistResultsStatus(false)
+    const t = setTimeout(() => {
+      artistSearch(q, 8)
+        .then((list) => {
+          if (alive) {
+            setArtistResults(list)
+            setArtistResultsStatus(true)
+          }
+        })
+        .catch(() => alive && setArtistResultsStatus(true))
+    }, 400)
+    return () => {
+      alive = false
+      clearTimeout(t)
+    }
+  }, [query])
+
+  useEffect(() => {
+    const entries = Object.values(library)
+    const rated = entries
+      .filter((e) => e.status === 'rated')
+      .map((e) => e.item)
+    if (rated.length === 0) {
+      setRecs([])
+      setRecsLoading(false)
+      return
+    }
+    let alive = true
+    setRecsLoading(true)
+    const artists = [...new Set(rated.slice(0, 3).map((a) => a.artist))]
+    const sourceByArtist = new Map<string, string>()
+    for (const r of rated) {
+      if (!sourceByArtist.has(r.artist)) sourceByArtist.set(r.artist, r.title)
+    }
+    Promise.allSettled(
+      artists.map((a) =>
+        similarAlbums({ artist: a, album: sourceByArtist.get(a) ?? '' }, 8),
+      ),
+    ).then((results) => {
+      if (!alive) return
+      const seen = new Set(rated.map((r) => r.id))
+      const out: CatalogItem[] = []
+      for (const result of results) {
+        if (result.status !== 'fulfilled') continue
+        for (const item of result.value) {
+          if (seen.has(item.id)) continue
+          const key = item.mbid ?? item.id
+          if (out.some((o) => (o.mbid ?? o.id) === key)) continue
+          seen.add(item.id)
+          out.push(item)
+          if (out.length >= ROW_SIZE) break
+        }
+        if (out.length >= ROW_SIZE) break
+      }
+      setRecs(out)
+      setRecsLoading(false)
+    })
+    return () => {
+      alive = false
+    }
+  }, [library])
+
+  useEffect(() => {
     let cancelled = false
     setStatus('loading')
     setError('')
@@ -197,6 +301,18 @@ export default function HomePage() {
 
       {!query.trim() && (
         <>
+          <ArtistRow
+            title="Artis paling didengar"
+            artists={topArtistsList}
+            loading={topArtistsLoading}
+          />
+          {recs.length > 0 && (
+            <EditorialRow
+              title="Rekomendasi untukmu"
+              items={recs}
+              loading={recsLoading}
+            />
+          )}
           <EditorialRow
             title="Paling banyak didengar"
             items={trending}
@@ -227,6 +343,37 @@ export default function HomePage() {
 
       <section className="container section">
         <FilterBar query={query} onQuery={setQuery} sort={sort} onSort={setSort} />
+
+        {query.trim() && artistResultsStatus && artistResults.length > 0 && (
+          <div className="artist-hit">
+            <h2 className="artist-hit__heading">Artis</h2>
+            <div className="artist-hit__list">
+              {artistResults.map((a) => (
+                <Link
+                  key={a.name}
+                  to={`/artist/${encodeURIComponent(a.name)}`}
+                  className="artist-hit__item"
+                >
+                  <span className="artist-hit__avatar">
+                    {a.image ? (
+                      <img src={a.image} alt="" loading="lazy" />
+                    ) : (
+                      <span className="artist-hit__initial">
+                        {a.name.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </span>
+                  <span className="artist-hit__name">{a.name}</span>
+                  {a.listeners != null && (
+                    <span className="artist-hit__meta">
+                      {a.listeners.toLocaleString('id-ID')} pendengar
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {status === 'loading' && <SkeletonCards count={12} />}
 

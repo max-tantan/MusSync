@@ -1,0 +1,53 @@
+.similar__artists {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 18px;
+}
+
+.similar__artist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 14px 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    border-color: var(--neon);
+    transform: translateY(-2px);
+  }
+}
+
+.similar__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.similar__initial {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--faint);
+}
+
+.similar__aname {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.25;
+}
