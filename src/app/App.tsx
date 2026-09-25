@@ -11,6 +11,7 @@ import GenreIndexPage from '../pages/Genre/GenreIndexPage'
 import GenrePage from '../pages/Genre/GenrePage'
 import ArtistPage from '../pages/Artist/ArtistPage'
 import LibraryPage from '../pages/Library/LibraryPage'
+import ListeningPage from '../pages/Listening/ListeningPage'
 import ProfilePage from '../pages/Profile/ProfilePage'
 import './App.css'
 
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/genre/:name" element={<GenrePage />} />
                 <Route path="/artist/:name" element={<ArtistPage />} />
                 <Route path="/library" element={<LibraryPage />} />
+                <Route path="/listening" element={<ListeningPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

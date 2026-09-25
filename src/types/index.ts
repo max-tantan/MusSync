@@ -108,5 +108,36 @@ export interface ArtistItem {
   image: string | null
   mbid?: string
   listeners?: number
+  playcount?: number
   url?: string
+}
+
+export interface LastfmUser {
+  username: string
+  realname?: string
+  image: string | null
+  url?: string
+  playcount?: number
+  registeredAt?: string
+}
+
+export interface TrackItem {
+  id: string
+  name: string
+  artist: string
+  album: string
+  image: string | null
+  mbid?: string
+  playcount?: number
+  url?: string
+}
+
+export interface ScrobbleItem {
+  id: string
+  name: string
+  artist: string
+  album: string
+  image: string | null
+  playedAt: string
+  nowPlaying?: boolean
 }

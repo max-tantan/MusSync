@@ -4,6 +4,7 @@ import './Footer.css'
 const navLinks = [
   { to: '/', label: 'Beranda' },
   { to: '/genre', label: 'Genre' },
+  { to: '/listening', label: 'Dengar' },
   { to: '/library', label: 'Pustaka' },
   { to: '/profile', label: 'Profil' },
 ]

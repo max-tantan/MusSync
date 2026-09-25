@@ -51,6 +51,7 @@ function ProfileButton() {
 const links = [
   { to: '/', label: 'Beranda', end: true },
   { to: '/genre', label: 'Genre', end: false },
+  { to: '/listening', label: 'Dengar', end: false },
   { to: '/library', label: 'Pustaka', end: false },
 ]
 

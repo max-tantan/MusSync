@@ -1,9 +1,19 @@
-import type { AlbumDetail, AlbumTrack, ArtistItem, CatalogItem, SimilarAlbumRef } from '../types'
+import type {
+  AlbumDetail,
+  AlbumTrack,
+  ArtistItem,
+  CatalogItem,
+  LastfmUser,
+  ScrobbleItem,
+  SimilarAlbumRef,
+  TrackItem,
+} from '../types'
 
 const API_KEY = import.meta.env.VITE_LASTFM_API_KEY ?? ''
 const CACHE_PREFIX = 'mussync.lf.v1.'
 const DEFAULT_TTL = 6 * 60 * 60 * 1000
 const DETAIL_TTL = 24 * 60 * 60 * 1000
+const RECENT_TTL = 10 * 60 * 1000
 
 export class LastFmError extends Error {
   code: number
@@ -471,4 +481,163 @@ export async function albumGetInfo(
 
   const cacheKey = 'mbid' in ref ? `info-${ref.mbid}` : `info-${ref.artist}-${ref.album}`
   return cached(cacheKey, DETAIL_TTL, fetchIt)
+}
+
+export type ListenPeriod = 'overall' | '7day' | '1month' | '6month' | '1year'
+
+interface RawUserInfo {
+  user: {
+    name: string
+    realname?: string
+    image?: ImageEntry[]
+    url?: string
+    playcount?: string
+    registered?: { unixtime?: string }
+  }
+}
+
+interface RawNode {
+  name?: string
+  mbid?: string
+  url?: string
+  image?: ImageEntry[]
+  '#text'?: string
+}
+
+interface RawTrack {
+  name: string
+  mbid?: string
+  url?: string
+  playcount?: string
+  artist?: RawNode
+  album?: RawNode
+  image?: ImageEntry[]
+}
+
+interface RawRecentTrack extends RawTrack {
+  date?: { uts?: string; '#text'?: string }
+  '@attr'?: { nowplaying?: string }
+}
+
+function nodeName(node?: RawNode): string {
+  return node?.name ?? node?.['#text'] ?? ''
+}
+
+function toTrackItem(raw: RawTrack): TrackItem {
+  const artist = nodeName(raw.artist) || '?'
+  return {
+    id: raw.mbid || `${artist}::${raw.name ?? ''}`,
+    name: raw.name ?? '(tanpa judul)',
+    artist,
+    album: nodeName(raw.album),
+    image: pickImage(raw.image ?? raw.album?.image),
+    mbid: raw.mbid || undefined,
+    playcount: parseNum(raw.playcount),
+    url: raw.url,
+  }
+}
+
+function toIso(unixSeconds?: number): string {
+  return unixSeconds ? new Date(unixSeconds * 1000).toISOString() : ''
+}
+
+export function userInfo(username: string): Promise<LastfmUser> {
+  const fetchIt = () =>
+    request<RawUserInfo>({ method: 'user.getinfo', user: username }).then((d) => {
+      const u = d.user
+      return {
+        username: u.name || username,
+        realname: u.realname || undefined,
+        image: pickImage(u.image),
+        url: u.url,
+        playcount: parseNum(u.playcount),
+        registeredAt: toIso(parseNum(u.registered?.unixtime)),
+      }
+    })
+
+  return cached(`lfmuser-info-${username}`, DETAIL_TTL, fetchIt)
+}
+
+export function userTopArtists(
+  username: string,
+  limit = 10,
+  period: ListenPeriod = 'overall',
+): Promise<ArtistItem[]> {
+  const fetchIt = () =>
+    request<{ topartists: { artist: RawTrack[] } }>({
+      method: 'user.gettopartists',
+      user: username,
+      limit: String(limit),
+      period,
+    }).then((d) =>
+      (d.topartists?.artist ?? []).map((a) => ({
+        name: a.name ?? '',
+        image: pickImage(a.image),
+        mbid: a.mbid || undefined,
+        playcount: parseNum(a.playcount),
+        url: a.url,
+      })),
+    )
+
+  return cached(`lfmuser-artists-${username}-${period}-${limit}`, DEFAULT_TTL, fetchIt)
+}
+
+export function userTopAlbums(
+  username: string,
+  limit = 20,
+  period: ListenPeriod = 'overall',
+): Promise<CatalogItem[]> {
+  const fetchIt = () =>
+    request<{ topalbums: { album: RawAlbumMatch[] } }>({
+      method: 'user.gettopalbums',
+      user: username,
+      limit: String(limit),
+      period,
+    }).then((d) => (d.topalbums?.album ?? []).map(toCatalogItem))
+
+  return cached(`lfmuser-albums-${username}-${period}-${limit}`, DEFAULT_TTL, fetchIt)
+}
+
+export function userTopTracks(
+  username: string,
+  limit = 10,
+  period: ListenPeriod = 'overall',
+): Promise<TrackItem[]> {
+  const fetchIt = () =>
+    request<{ toptracks: { track: RawTrack[] } }>({
+      method: 'user.gettoptracks',
+      user: username,
+      limit: String(limit),
+      period,
+    }).then((d) => (d.toptracks?.track ?? []).map(toTrackItem))
+
+  return cached(`lfmuser-tracks-${username}-${period}-${limit}`, DEFAULT_TTL, fetchIt)
+}
+
+export function userRecentTracks(
+  username: string,
+  limit = 24,
+): Promise<ScrobbleItem[]> {
+  const fetchIt = () =>
+    request<{ recenttracks: { track: RawRecentTrack[] } }>({
+      method: 'user.getrecenttracks',
+      user: username,
+      limit: String(limit),
+    }).then((d) =>
+      (d.recenttracks?.track ?? []).map((t) => {
+        const track = toTrackItem(t)
+        const unixtime = parseNum(t.date?.uts ?? t.date?.['#text'])
+        return {
+          id: `${track.id}::${unixtime ?? 0}`,
+          name: track.name,
+          artist: track.artist,
+          album: track.album,
+          image: track.image,
+          playedAt: toIso(unixtime),
+          nowPlaying: t['@attr']?.nowplaying === 'true',
+        }
+      }),
+    )
+
+  return cached(`lfmuser-recent-${username}-${limit}`, RECENT_TTL, fetchIt)
 }

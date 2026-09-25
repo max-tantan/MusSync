@@ -3,10 +3,12 @@ import './TopArtistsList.css'
 
 export default function TopArtistsList({
   artists,
+  unit = 'album',
 }: {
   artists: TopArtist[]
+  unit?: string
 }) {
-  const max = artists.length > 0 ? artists[0].count : 1
+  const max = Math.max(1, artists[0]?.count ?? 0)
   return (
     <ol className="topartists">
       {artists.map((a, i) => (
@@ -18,7 +20,7 @@ export default function TopArtistsList({
             <div className="topartists__head">
               <span className="topartists__name">{a.name}</span>
               <span className="topartists__count">
-                {a.count} album
+                {a.count} {unit}
               </span>
             </div>
             <span className="topartists__bar">

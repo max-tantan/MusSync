@@ -33,41 +33,16 @@
   color: var(--muted);
 }
 
-.profile__cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.profile__panel {
-  min-width: 0;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 24px;
-}
-
-.profile__panel .profile-sec__head {
-  margin-bottom: 18px;
-}
-
-@media (max-width: 760px) {
-  .profile__cols {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-.hint-p {
+.profile-page .hint-p {
   color: var(--muted);
   font-size: 14px;
   margin: 0;
 }
 
-.page .section {
+.profile-page .section {
   padding-block: 0 40px;
 }
 
-.page .page-block {
+.profile-page .page-block {
   padding-block: 48px 28px;
 }
