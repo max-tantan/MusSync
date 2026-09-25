@@ -72,6 +72,14 @@ export default function HomePage() {
   const { library } = useLibrary()
 
   useEffect(() => {
+    const root = document.documentElement
+    root.dataset.scrollbar = 'minimal-neon'
+    return () => {
+      delete root.dataset.scrollbar
+    }
+  }, [])
+
+  useEffect(() => {
     let alive = true
     homeAlbums()
       .then((list) => {
