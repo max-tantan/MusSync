@@ -7,6 +7,7 @@ import { averageRating } from '../../utils/score'
 import { getFavoriteAlbums, formatJoined } from '../../utils/profile'
 import ProfileHeader from '../../components/profile/ProfileHeader'
 import QuickStatsCard from '../../components/profile/QuickStatsCard'
+import TopAlbumsBlock from '../../components/profile/TopAlbumsBlock'
 import FavoriteAlbumsGrid from '../../components/profile/FavoriteAlbumsGrid'
 import ArtistFavoritesList from '../../components/profile/ArtistFavoritesList'
 import './ProfilePage.css'
@@ -53,6 +54,14 @@ export default function ProfilePage() {
           favorites={favoriteCount}
           avgScore={avgScore}
         />
+      </section>
+
+      <section className="container section">
+        <SectionHead
+          title="Top 3 album"
+          desc="Tiga album yang paling menentukan selerimu."
+        />
+        <TopAlbumsBlock />
       </section>
 
       <section className="container section">

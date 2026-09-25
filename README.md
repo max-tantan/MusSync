@@ -13,7 +13,7 @@ MusSync tidak menyediakan pemutar musik. Fokusnya adalah menjadi papan skor pers
 - Pustaka pribadi dengan tab album dinilai, mau dengar, favorit, dan statistik.
 - Ekspor dan impor pustaka dalam format JSON.
 - Dashboard riwayat dengar Last.fm berdasarkan username.
-- Profil lokal sederhana dengan nama, avatar, statistik, artis favorit, dan album favorit.
+- Profil lokal sederhana dengan nama, avatar, statistik, pilihan Top 3 album, artis favorit, dan album favorit.
 - Tema terang/gelap, layout responsif, dan bottom navigation pada layar mobile.
 
 ## Teknologi
@@ -148,6 +148,7 @@ Tidak ada akun, sinkronisasi cloud, analitik, atau database server. Data lokal d
 | `mussync.favorites.v1` | Album favorit |
 | `mussync.reviews.v2` | Ulasan lokal |
 | `mussync.artist-favs.v1` | Artis favorit |
+| `mussync.top-albums.v1` | Tiga album pilihan profil |
 | `mussync.profile.v1` | Nama, avatar, dan waktu profil dibuat |
 | `mussync.recent.v1` | Album yang baru dibuka |
 | `mussync.theme.v1` | Tema gelap atau terang |
@@ -161,7 +162,7 @@ Konsekuensinya:
 - Berpindah browser atau perangkat tidak otomatis memindahkan data.
 - Username Last.fm bukan akun yang login ke MusSync.
 - Review MusSync tidak dikirim atau disinkronkan ke Last.fm.
-- Export JSON hanya mencakup pustaka dan album favorit, bukan ulasan, profil, favorit artis, tema, atau username Last.fm.
+- Export JSON hanya mencakup pustaka dan album favorit, bukan ulasan, profil, favorit artis, pilihan Top 3 album, tema, atau username Last.fm.
 - Last.fm mungkin tidak mengembalikan riwayat pengguna privat.
 
 Aplikasi juga dapat meminta cover art dari CDN Last.fm dan memuat font Inter serta JetBrains Mono dari Google Fonts.

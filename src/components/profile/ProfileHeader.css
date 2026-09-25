@@ -113,6 +113,10 @@
     width: 100%;
   }
 
+  .profile-head__name {
+    text-align: center;
+  }
+
   .profile-head__meta {
     justify-content: center;
   }
